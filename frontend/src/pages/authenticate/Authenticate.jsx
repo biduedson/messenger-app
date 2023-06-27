@@ -1,10 +1,16 @@
-import React from 'react'
+import axios from 'axios'
 
 const Authenticate = (props) => {
     const onSubmit = (e) => {
         e.preventDefault();
         const { value } = e.target[0];
-        props.onAuth({ username: value, secret: value });
+        axios.post(
+            'http://localhost:3002/authenticate',
+            { username: value }
+        )
+            .then(res => props.onAuth({ ...res.data, secret: value }))
+            .catch(e => console.log('error', e))
+        //props.onAuth({ username: value, secret: value });
     };
 
     return (
